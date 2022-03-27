@@ -16,9 +16,9 @@ func GetUserInfoToCache(){
 		fmt.Printf("%v",err)
 		return
 	}
+	rConn := cache.RedisPool().Get()//连接池中获取
+	defer rConn.Close()
 	for _,v := range userState{
-		rConn := cache.RedisPool().Get()//连接池中获取
-		defer rConn.Close()
 		rConn.Do("SET",v.Address,strconv.Itoa(v.Status))
 	}
 }
